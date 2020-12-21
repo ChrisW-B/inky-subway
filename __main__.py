@@ -3,10 +3,11 @@ from PIL import Image, ImageFont, ImageDraw
 from inky import InkyPHAT
 from functools import reduce
 from datetime import datetime
-from dotenv import load_dotenv
+from dotenv import Dotenv
 import os
 
-load_dotenv()
+dotenv = Dotenv(os.path.join(os.path.dirname(__file__), '.envrc'))
+os.environ.update(dotenv)
 
 inky_display = InkyPHAT("yellow")
 inky_display.set_border(inky_display.WHITE)
@@ -77,6 +78,8 @@ def main():
     times = reduce(lambda x, y: x+y,
                    [get_station_times(station) for station in STATIONS])
     sorted_times = sorted(times, key=lambda k: k['time'])
+    # first = sorted_times[0]
+    # second = sorted_times[1]
     first, second, *_ = sorted_times
     print_to_inky(first, second)
 
